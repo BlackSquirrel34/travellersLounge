@@ -25,16 +25,63 @@
             </ul>
         </div>
      
-       <div class="main">
+       <div class="upper-main">
             <br>
-            <h1>Contact us</h1>
-
+            <!-- Contact Form -->
             <!-- a form for users in case they want to reach out
                 The form should contain:
                 <input> boxes for name and email
                 <textarea> for users to write their message
-                Submit button to submit the form 
+                Submit button to submit the form. with sendMessage() event handler
             -->
+                <div class="contact-form">
+                  <div class="flex_center">
+                    <form id="contactForm">  
+                    <div class="form-element"> 
+                    <h1>Contact us</h1>
+                    </div>
+                    <div class="form-element">     
+                      <input type="text" id="name" placeholder="Name (Optional)"> 
+                    </div>
+                    <div class="form-element">  
+                      <input type="email" id="email" placeholder="Your Email" required>
+                    </div>
+                    <div class="form-element">
+                      <textarea id="new_message" cols="80" rows="10" placeholder="Message" required></textarea>
+                    </div>
+                    <br>
+                    <div class="form-element">
+                      <div>
+                        <button type="submit" id="contact_btn" onclick="sendMessage()">Submit Message</button>
+                      </div>
+                    </div>
+                     </form>
+                  </div>
+                </div>  
+
+
+                <!-- sample code:
+    <form id="contactForm">
+    <div>
+      <label for="name">Name</label>
+      <input type="text" id="name" name="name" required>
+    </div>
+    <div>
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" required>
+    </div>
+    <div>
+      <label for="condition">Condition</label>
+      <input type="text" id="condition" name="condition" required>
+    </div>
+    <div>
+      <label for="message">Message</label>
+      <textarea id="message" name="message" rows="5" required></textarea>
+    </div>
+    <button type="submit" onclick="thankyou()">Submit</button>
+  </form>
+  -->     
+
         </div>
 
 
