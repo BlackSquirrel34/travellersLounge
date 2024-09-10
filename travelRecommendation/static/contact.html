@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+    <head>
+            <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <!-- make responsive -->
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <title>Traveller's Lounge</title>
+        <!-- for adding fontawesome social media icons -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">   
+        <link rel="stylesheet" href="/public/css/main.css">
+        <script src="/public/js/script.js"></script>
+    </head>
+    <body>
+        <nav>
+            <h1 class="topmenu">Traveller's Lounge</h1>
+            <ul>
+            <li><a class="topmenu" href="/" id="home">Home </a></li>
+            <li><a class="topmenu" href="/about" id="contact">About us</a></li>
+            <li><a class="topmenu" href="/contact" id="contact">Contact us</a></li>
+        </ul>
+        </nav>
+
+        <div class="leftside">
+            <ul>
+                <li><i class="fa fa-facebook-official"></i></li>
+                <li><i class="fa fa-linkedin-square"></i></li>
+                <li><i class="fa fa-instagram"></i></li>
+                <li><i class="fa fa-twitter-square"></i></li>
+            </ul>
+        </div>
+     
+       <div class="upper-main">
+            <br>
+            <!-- Contact Form -->
+            <!-- a form for users in case they want to reach out
+                The form should contain:
+                <input> boxes for name and email
+                <textarea> for users to write their message
+                Submit button to submit the form. with sendMessage() event handler
+            -->
+                <div class="contact-form">
+                  <div class="flex_center">
+                    <form id="contactForm">  
+                    <div class="form-element"> 
+                    <h1>Contact us</h1>
+                    </div>
+                    <div class="form-element">     
+                      <input type="text" id="name" placeholder="Name (Optional)"> 
+                    </div>
+                    <div class="form-element">  
+                      <input type="email" id="email" placeholder="Your Email" required>
+                    </div>
+                    <div class="form-element">
+                      <textarea id="new_message" cols="80" rows="10" placeholder="Message" required></textarea>
+                    </div>
+                    <br>
+                    <div class="form-element">
+                      <div>
+                        <button type="submit" id="contact_btn" onclick="sendMessage()">Submit Message</button>
+                      </div>
+                    </div>
+                     </form>
+                  </div>
+                </div>  
+
+
+                <!-- sample code:
+    <form id="contactForm">
+    <div>
+      <label for="name">Name</label>
+      <input type="text" id="name" name="name" required>
+    </div>
+    <div>
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" required>
+    </div>
+    <div>
+      <label for="condition">Condition</label>
+      <input type="text" id="condition" name="condition" required>
+    </div>
+    <div>
+      <label for="message">Message</label>
+      <textarea id="message" name="message" rows="5" required></textarea>
+    </div>
+    <button type="submit" onclick="thankyou()">Submit</button>
+  </form>
+  -->     
+
+        </div>
+
+
+    </body>
+</html>

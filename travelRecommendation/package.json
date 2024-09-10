@@ -1,0 +1,17 @@
+{
+  "name": "travelrecommendation",
+  "version": "1.0.0",
+  "description": "travel recommendation website",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "javascript"
+  ],
+  "author": "Blacksquirrel",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.20.0"
+  }
+}
