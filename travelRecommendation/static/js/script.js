@@ -5,8 +5,10 @@ function sendMessage() {
 
 }
 
+// global variable to store json data
 
-// const btnSearch = document.getElementById('btnSearch');
+
+
 
 // Task 6: Fetch data with fetch API method
 // fetch data from the travel_recommendation_api.json file using the fetch API method, 
@@ -15,86 +17,128 @@ function sendMessage() {
 //   <li><button id='btnSearch'>Search</button>
 
 function fetchData() {
-  
+
        fetch('/public/api/api.json')
             .then(response => response.json())
             .then(data => {
-              console.log(data)
+              console.log("fetchData executed")
+              console.log(data);
+              return data;
+           //   Object { countries: (3) [...], temples: (2) [...], beaches: (2)[...]}
+              // sub-structure:
+              // beaches: Array [{id:1, name: "asgf", imageUrl: "aghjsghj.jpg", description: "shg"}, {id: 2, ...}]
+              // countries: Array [
+              //{id: 1, name: "shg", cities:
+              //              [{name: "", imageUrl: "saf", descripton: "sg"}, {name:...}, {...}, {...}]
+              // }, {id: 2, name: "w", cities: [...]}
+              // ]
+              // temples: Array [{id: 1, name: "g", imageUrl: "f", description: "g"}, {id: 2, ...}, {...}]
             })
 
             .catch(error => {
               console.error('Error fetching countries data:', error);
-              
-             
             });
-
-
 }
-
-
-/*
-async function fetchData() {
-  const url = "/public/api/api.json";
-  try {
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(`Response status: ${response.status}`);
-    }
-
-    const json = await response.json();
-    console.log(json);
-  } catch (error) {
-    // weatherInfo.innerHTML = `<p>Failed to fetch weather. Please try again.</p>`;
-    console.error(error.message);
-  }
-
-}
-*/
-
-
-
-
 // It is good if the console.log logs the data. Otherwise, you need to look for a different API.
-             // turn into JS object
-          //  let dataobject = JSON.parse(data);  
-             // return data 
-    
+             
+
+// very basic lemmatization for english language, without external library like natural
+function lemmatize(word) {
+    const suffixes = ["s", "es", "ed", "ing"];
+    for (const suffix of suffixes) {
+        if (word.endsWith(suffix)) {
+            return word.slice(0, -suffix.length);
+        }
+    }
+    return word; // return the original if no suffix is found
+}
+
+
+// Task 7: Keyword searches /*
+// with async functions we cannot imply use return statements to use result in another function
+async function keywordSearch() {
+    const inputRaw = document.getElementById('keywordInput').value.toLowerCase();
+    const input = lemmatize(inputRaw).toLowerCase(); // Normalize input
+    console.log("Input: ", input);
+
+    try {
+        const response = await fetch('/public/api/api.json'); // Fetch the JSON data
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`); // Handle errors
+        }
+        const jsonData = await response.json(); // Parse the JSON data
+
+        console.log("fetchData executed");
+        console.log("this data was fetched: ", jsonData); // Log the JSON data to ensure it was fetched correctly
+
+        const allKeys = Object.keys(jsonData); // Retrieve all keys
+        console.log("These keys exist: ", allKeys); // Log the keys of the parsed JSON object
+
+        // Example of filtering based on input
+        const result = [];
+        const regex = new RegExp(`^${input}.*`, 'i'); // Matches input at the start of the key
+
+        allKeys.forEach(key => {
+            const value = jsonData[key];
+
+            // Log key and value for debugging
+            console.log(`Checking key: ${key}, value: ${value}`);
+
+            // Check if the key itself matches the input
+            if (regex.test(key.toLowerCase())) {
+                result.push({ key: key, value: value }); // Include key-value pair where the key matches
+            }
+        });
+
+        // Now search in the "countries" sub-structure only.
+        const countries = jsonData.countries || []; // Retrieve countries, ensuring it's an array
+        console.log("Countries: ", countries);
+
+        countries.forEach(country => {
+            let countryName;
+
+            // Check if 'country' is an object, then access the 'name' property
+            if (typeof country === 'object' && country.name) {
+                countryName = country.name;
+            } else {
+                countryName = country; // If it’s already a string
+            }
+
+            console.log(`Checking country: ${countryName}`); // Log the country name
+
+            // Check if the country name matches the input
+            if (regex.test(countryName.toLowerCase())) {
+                result.push(country); // Push the entire country object into result
+            }
+        }); // end of forEach
+
+
+        console.log("Matching entries: ", result); // Log the results
+        if (result.length === 0) {
+            console.log("No matches found for the input.");
+        }
+
+
+    } catch (error) {
+        console.error("Error fetching or processing the data:", error);
+    }
+}// for search term temple: returns {key: temples, value: [{id: 1, name: dsjhg", imageUrl: "g", }, {}]}
+// works also for beach
+// skip recommendation based on country?
+// > no, we just 
 
 
 
-/*
-fetch(url)
-    .then(response => response.json())
-    .then(data => console.log(data));
-*/
-// testing purposes
-// btnSearch.addEventListener('click', fetchData);  
 
-// Task 7: Keyword searches 
+// add event listener. testing only. success.
+document.getElementById("btnSearch").addEventListener("click", keywordSearch); 
 
-;
-
-
-/*
-     
-            const country = data.countries.find(country => country.name.toLowerCase() === input);
-
-
-            if (country) {
-              const name = country.name.join(', ');
-              const cities = country.cities.join(', ');
-
-              */
-
-
-
-// see also healthcare app:
+// important for displaying information:
+// for printing: we get back a key-value pair. 
+// the value is an array of objects. and these objects are what we're interested in.
+// they have these key-value pairs: id - 2, name: string, imageUrl: string, description: string
 /*
 function searchCondition() {
-        const input = document.getElementById('conditionInput').value.toLowerCase();
-        const resultDiv = document.getElementById('result');
-        resultDiv.innerHTML = '';
-
         fetch('health_analysis.json')
           .then(response => response.json())
           .then(data => {
@@ -134,8 +178,6 @@ function searchCondition() {
 // Similarly, you need to create logic to match keywords entered for temples and countries.
 // its not expected the website can deal with anything else than beach, temple or countries.
 
-// The website should display results only after the user clicks the Search button.> onlick event handler
-
 
 
 // Task 8: Recommendations
@@ -151,7 +193,7 @@ function giveRecommendation(){
         const resultDiv = document.getElementById('result');
         resultDiv.innerHTML = ''
 
-        var resultData =  giveRecommendation(inputKeyword)
+        var resultData =  giveRecommendation(inputKeyword);
         // result data will be like json
 
 
@@ -235,8 +277,8 @@ function resetSearch() {
           console.log("resetSearch executed")
     }  
 
-// is this lien necessary??
-// btnClear.addEventListener('click', resetSearch);  
+
+btnClear.addEventListener('click', resetSearch);  
 
 
 // finally, check the output 
