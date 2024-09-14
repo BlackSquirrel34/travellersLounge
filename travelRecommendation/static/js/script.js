@@ -14,8 +14,6 @@ function sendMessage() {
 // fetch data from the travel_recommendation_api.json file using the fetch API method, 
 // from there you can fetch travel-related details, such as the name of the place. 
 
-//   <li><button id='btnSearch'>Search</button>
-
 function fetchData() {
 
        fetch('/public/api/api.json')
@@ -25,14 +23,6 @@ function fetchData() {
               console.log(data);
               return data;
            //   Object { countries: (3) [...], temples: (2) [...], beaches: (2)[...]}
-              // sub-structure:
-              // beaches: Array [{id:1, name: "asgf", imageUrl: "aghjsghj.jpg", description: "shg"}, {id: 2, ...}]
-              // countries: Array [
-              //{id: 1, name: "shg", cities:
-              //              [{name: "", imageUrl: "saf", descripton: "sg"}, {name:...}, {...}, {...}]
-              // }, {id: 2, name: "w", cities: [...]}
-              // ]
-              // temples: Array [{id: 1, name: "g", imageUrl: "f", description: "g"}, {id: 2, ...}, {...}]
             })
 
             .catch(error => {
@@ -56,10 +46,8 @@ function lemmatize(word) {
 
 // Task 7: Keyword searches /*
 // with async functions we cannot imply use return statements to use result in another function
-async function keywordSearch() {
-    const inputRaw = document.getElementById('keywordInput').value.toLowerCase();
-    const input = lemmatize(inputRaw).toLowerCase(); // Normalize input
-    console.log("Input: ", input);
+async function keywordSearch(input) {
+    
 
     try {
         const response = await fetch('/public/api/api.json'); // Fetch the JSON data
@@ -114,6 +102,7 @@ async function keywordSearch() {
 
 
         console.log("Matching entries: ", result); // Log the results
+        return result;
         if (result.length === 0) {
             console.log("No matches found for the input.");
         }
@@ -124,129 +113,79 @@ async function keywordSearch() {
     }
 }// for search term temple: returns {key: temples, value: [{id: 1, name: dsjhg", imageUrl: "g", }, {}]}
 // works also for beach
-// skip recommendation based on country?
-// > no, we just 
+
 
 
 
 
 // add event listener. testing only. success.
-document.getElementById("btnSearch").addEventListener("click", keywordSearch); 
+// document.getElementById("btnSearch").addEventListener("click", keywordSearch); 
 
 // important for displaying information:
 // for printing: we get back a key-value pair. 
 // the value is an array of objects. and these objects are what we're interested in.
 // they have these key-value pairs: id - 2, name: string, imageUrl: string, description: string
-/*
-function searchCondition() {
-        fetch('health_analysis.json')
-          .then(response => response.json())
-          .then(data => {
-            const condition = data.conditions.find(item => item.name.toLowerCase() === input);
-
-            if (condition) {
-              const symptoms = condition.symptoms.join(', ');
-              const prevention = condition.prevention.join(', ');
-              const treatment = condition.treatment;
-
-              resultDiv.innerHTML += `<h2>${condition.name}</h2>`;
-              resultDiv.innerHTML += `<img src="${condition.imagesrc}" alt="hjh">`;
-
-              resultDiv.innerHTML += `<p><strong>Symptoms:</strong> ${symptoms}</p>`;
-              resultDiv.innerHTML += `<p><strong>Prevention:</strong> ${prevention}</p>`;
-              resultDiv.innerHTML += `<p><strong>Treatment:</strong> ${treatment}</p>`;
-            } else {
-              resultDiv.innerHTML = 'Condition not found.';
-            }
-          })
-          .catch(error => {
-            console.error('Error:', error);
-            resultDiv.innerHTML = 'An error occurred while fetching data.';
-          });
-      }
-        btnSearch.addEventListener('click', searchCondition);  
-
-    */
-//  also accept variants
-
-// For example, if the user enters "beach," or "beaches," "Beach" or "BEACH," 
-// then you need to write JavaScript code so that it accepts all variations of this keyword.
-
-// For uppercase letters in the keyword, you can convert them to lowercase 
-// in your JavaScript using the string manipulation toLowerCase() method.
-
-// Similarly, you need to create logic to match keywords entered for temples and countries.
-// its not expected the website can deal with anything else than beach, temple or countries.
-
 
 
 // Task 8: Recommendations
 // In this task, you need to fetch the details of the places you recommend based on
 //  which keyword the user enters: beach, temple, or country.
-
 // For each of these three keywords, your results should display at least two recommendations, an image, and a description. 
 // these get rendered to the home page
 
-function giveRecommendation(){
-    // <li><input type="text" id="keywordInput" placeholder="Enter keywords to get a recommendation">  </li>
-        const inputKeyword = document.getElementById('keywordInput').value.toLowerCase();
-        const resultDiv = document.getElementById('result');
-        resultDiv.innerHTML = ''
+async function giveRecommendation() {
+    const inputRaw = document.getElementById('keywordInput').value.toLowerCase();
+    const input = lemmatize(inputRaw).toLowerCase(); // Normalize input
+    console.log("Input: ", input);
+    
+    const resultDiv = document.getElementById('result');
+    resultDiv.innerHTML = '';
 
-        var resultData =  giveRecommendation(inputKeyword);
-        // result data will be like json
+    try {
+        console.log('Calling keywordSearch...');
+        const resultData = await keywordSearch(input); // Await the Promise
+        
 
+        // Now, we use Object.values to get an array of values in resultData
+        const values = Object.values(resultData);
+        let hasResults = false;  // Flag to check if we found any valid result
 
-        // code for outputting the json nicely formatted
+        console.log('Received resultData:', resultData);
+        console.log('Values from resultData:', JSON.stringify(values, null, 2));
+        // Iterate over the values
+        values.forEach((value, index) => {
+            console.log('Iterating: Value at index ' + index + ':', value); // Debugging line
+              // Check if value.value is an array and has items
+        if (Array.isArray(value.value) && value.value.length > 0) {
+            hasResults = true; // We found a valid result
+                
+                value.value.forEach(item => {
+                    // Assuming each item has properties name, imageUrl, description
+                    resultDiv.innerHTML += `<div class="recommendation">`;
+                    resultDiv.innerHTML += `<h2>${item.name}</h2>`;
+                    resultDiv.innerHTML += `<img src="public/${item.imageUrl}" alt="image">`;
+                    resultDiv.innerHTML += `<p><strong>Description:</strong> ${item.description}</p>`;
+                    resultDiv.innerHTML += `</div>`;
+                });
 
-
-
-}
-
-// btnSearch.addEventListener('click', giveRecommendation);  
-// sample code:
-/*
-function generateReport() {
-          const numPatients = patients.length;
-          const conditionsCount = {
-            Diabetes: 0,
-            Thyroid: 0,
-            "High Blood Pressure": 0,
-          };
-          const genderConditionsCount = {
-            Male: {
-              Diabetes: 0,
-              Thyroid: 0,
-              "High Blood Pressure": 0,
-            },
-            Female: {
-              Diabetes: 0,
-              Thyroid: 0,
-              "High Blood Pressure": 0,
-            },
-          };
-
-          for (const patient of patients) {
-            conditionsCount[patient.condition]++;
-            genderConditionsCount[patient.gender][patient.condition]++;
-          }
-
-          report.innerHTML = `Number of patients: ${numPatients}<br><br>`;
-          report.innerHTML += `Conditions Breakdown:<br>`;
-          for (const condition in conditionsCount) {
-            report.innerHTML += `${condition}: ${conditionsCount[condition]}<br>`;
-          }
-
-          report.innerHTML += `<br>Gender-Based Conditions:<br>`;
-          for (const gender in genderConditionsCount) {
-            report.innerHTML += `${gender}:<br>`;
-            for (const condition in genderConditionsCount[gender]) {
-              report.innerHTML += `&nbsp;&nbsp;${condition}: ${genderConditionsCount[gender][condition]}<br>`;
             }
-          }
+        });
+
+        if (!hasResults) {
+            resultDiv.innerHTML = `<div>'No results found.'</div>`;
         }
 
-*/
+    } catch (error) {
+        console.error(error);
+        resultDiv.innerHTML = 'An error occurred while fetching results.';
+    }
+}
+
+
+
+document.getElementById("btnSearch").addEventListener('click', giveRecommendation);  
+// sample code:
+
 
 /*and that's the corresponding css:
  #report,#result {
@@ -278,7 +217,7 @@ function resetSearch() {
     }  
 
 
-btnClear.addEventListener('click', resetSearch);  
+document.getElementById("btnClear").addEventListener('click', resetSearch);  
 
 
 // finally, check the output 

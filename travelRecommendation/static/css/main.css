@@ -124,7 +124,11 @@ nav {
   font-weight: bold;
   position: relative;
   /* top right bottom left */
-  margin: 100px 500px 150px 250px;
+  margin: 200px 500px 150px 350px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+  margin: 0;
 }
 
 
@@ -139,7 +143,7 @@ nav {
 .upper-main p{
   color:  #1f2421;
   font-size: 150%;
-  margin: 0px 50px 50px 0px;
+  margin: 0px 0px 50px 0px;
   /* to make text readable against background picture */
   backdrop-filter: blur(1px) saturate(75%);
 }
@@ -160,11 +164,60 @@ nav {
 .content-card  {
   display: flex;
   flex-direction: row;
-  flex-flow: wrap;
+  flex: 1 1 300px; /* Flexible growth, shrink, and a base size to fit */
+  margin: 10px; /* Add some space between cards */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: add some shadow for depth */
+  padding: 20px; /* Optional: add padding inside cards */
+  border-radius: 8px; /* Optional: rounded corners */
+  // background-color: white; 
 } 
 
 
-/* same for contacts */
+.recommendations {
+  display: flex;
+  flex-direction: row;
+  flex-flow: wrap;
+  margin: 0; /* Reset margin */
+  gap: 10px; 
+
+}
+
+.recommendation{
+  border: 1px solid gray;
+  display: block;
+  border-radius: 6px;
+  text-align: center;
+  margin: 50px;
+  padding: 10px;
+  width: 2in;
+  font-size: 30px;
+  font-weight: normal;
+  box-shadow: 0 3px 10px gray;
+  backdrop-filter: blur(5px) saturate(60%);
+}
+
+.recommendation h2{
+  font-size: 70%;
+  color:#1f2421;
+  margin-block-start: 8px;
+  margin-block-end: 5px;
+}
+
+.recommendation img{
+  align-items: center;
+  width: 500px;
+  object-fit: contain;
+}
+
+
+.recommendation p{
+  font-size: 50%;
+  color:#1f2421;
+  margin-block-start: 5px;
+  margin-block-end: 5px;
+}
+
+/* flex layout for welcome and search result next to each other  for contacts */
 .contacts {
   display: flex;
   flex-direction: row;
