@@ -237,7 +237,7 @@ nav {
   font-size: 30px;
   font-weight: normal;
   box-shadow: 0 3px 10px gray;
-  backdrop-filter: blur(5px) saturate(60%);
+  background-color: white;
 }
 
 .contact-card img{
