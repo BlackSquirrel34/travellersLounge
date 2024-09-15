@@ -161,11 +161,41 @@ async function giveRecommendation() {
                 
                 value.value.forEach(item => {
                     // Assuming each item has properties name, imageUrl, description
-                    resultDiv.innerHTML += `<div class="recommendation">`;
-                    resultDiv.innerHTML += `<h2>${item.name}</h2>`;
-                    resultDiv.innerHTML += `<img src="public/${item.imageUrl}" alt="image">`;
-                    resultDiv.innerHTML += `<p><strong>Description:</strong> ${item.description}</p>`;
-                    resultDiv.innerHTML += `</div>`;
+
+    /*
+    When you use innerHTML +=, it doesn't always manage the state of the HTML correctly, 
+    especially if mixing string concatenations without clear block closures. 
+    Properly structure the code to ensure the elements are correctly nested within the div:
+    Instead of breaking down the HTML structure into separate concatenations, 
+    you can build the entire structure as a single string:
+    Instead of breaking it into multiple innerHTML += lines, we are utilizing a single 
+    template literal to encapsulate the entire structure of the .recommendation div. 
+    This maintains the correct nesting of elements.
+    Avoid using innerHTML to build up your HTML if possible, especially in cases where you 
+    have a structured element hierarchy. Consider using the DOM API 
+    (like document.createElement) for better performance and reliability, especially with 
+    complex structures.
+    */              const recommendationDiv = document.createElement('div');
+                    recommendationDiv.className = 'recommendation';
+
+                    const title = document.createElement('h2');
+                    title.textContent = item.name;
+                    
+                    const img = document.createElement('img');
+                    img.src = `public/${item.imageUrl}`;
+                    img.alt = item.name;
+
+                    const desc = document.createElement('p');
+                    desc.innerHTML = `<strong>Description:</strong> ${item.description}`;
+
+                    // Append elements to the recommendationDiv
+                    recommendationDiv.appendChild(title);
+                    recommendationDiv.appendChild(img);
+                    recommendationDiv.appendChild(desc);
+                    
+                    // Append the recommendationDiv to the resultDiv
+                    resultDiv.appendChild(recommendationDiv);
+                    
                 });
 
             }
