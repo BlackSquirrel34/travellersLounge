@@ -124,7 +124,15 @@ nav {
   font-weight: bold;
   position: relative;
   /* top right bottom left */
+  /* margin: 200px 500px 150px 350px; */
   margin: 100px 500px 150px 250px;
+
+  /* 
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap; 
+  margin: 0; 
+  */
 }
 
 
@@ -139,13 +147,13 @@ nav {
 .upper-main p{
   color:  #1f2421;
   font-size: 150%;
-  margin: 0px 50px 50px 0px;
+  margin: 0px 0px 50px 0px;
   /* to make text readable against background picture */
   backdrop-filter: blur(1px) saturate(75%);
 }
 
   
-  /* for displaying contacts in ful width */
+  /* for displaying contacts in full width */
 .full-width{
   color: #9cc5a1;
   font-weight: bold;
@@ -156,15 +164,61 @@ nav {
 
 
 
-/* flex layout for welcome and search result next to each other */
-.content-card  {
+/* flex layout for welcome and search result */
+.content-card {
   display: flex;
   flex-direction: row;
-  flex-flow: wrap;
-} 
+  flex-wrap: nowrap; /* Avoid wrapping */
+  width: 90%; /* occupy 70% of parent container */
+  margin: 20px auto; /* Centering the content */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  border-radius: 8px;
+}
 
 
-/* same for contacts */
+.recommendations {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap; /* Allow recommendations to wrap */
+  gap: 10px; /* Space between recommendation cards */
+  width: 100%; /* Full width of the container */
+}
+
+.recommendation {
+  border: 1px solid gray;
+  display: flex;
+  flex-direction: column; /* Stack elements vertically within */
+  border-radius: 6px;
+  text-align: center;
+  margin: 10px; /* Adjust margin around each card */
+  padding: 10px;
+  width: calc(30% - 20px); /* Responsive width, leaving space for margins */
+  font-size: 1em; /* Adjusting font size for better scalability */
+  box-shadow: 0 3px 10px gray;
+  background-color: white;
+  overflow: hidden; /* Prevent content overflow */
+}
+
+.recommendation h2 {
+  font-size: 100%;
+  color: #1f2421;
+  margin: 8px 0; /* Consistent margin above and below */
+}
+
+.recommendation img {
+  max-width: 100%; /* Ensures images fit within container */
+  height: auto; /* Maintain aspect ratio */
+  object-fit: contain; /* Makes sure the image fits correctly */
+}
+
+.recommendation p {
+  font-size: 80%; /* Adjust to fit better within the card */
+  color: #1f2421;
+  margin: 5px 0; /* Consistent spacing */
+}
+
+/* flex layout for welcome and search result next to each other  for contacts */
 .contacts {
   display: flex;
   flex-direction: row;
