@@ -30,7 +30,7 @@ git clone git@github.com:BlackSquirrel34/travellersLounge.git
 2) In case you don't have npm, install it.
 Once ```npm --version``` shows you have it installed, install dependencies:
 ```npm install express```
-and set up the new project: ```npm init``` to 
+and set up the new project: ```npm init```  
 
 3) To start the server, change to the travelRecommendation directory, and run: 
 ```node index.js``` Output should say server running on (port) 3005.
